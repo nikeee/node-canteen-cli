@@ -1,4 +1,4 @@
-# node-canteen-static
+# node-canteen-cli [![Build Status](https://travis-ci.org/nikeee/node-canteen-cli.svg?branch=master)](https://travis-ci.org/nikeee/node-canteen-cli) ![Dependency Status](https://david-dm.org/nikeee/node-canteen-cli.svg)
 
 Data scraper for Uni Kassel Mensa.
 
