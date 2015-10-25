@@ -2,7 +2,7 @@
 
 Data scraper for Uni Kassel Mensa.
 
-### Prequisites:
+### Prerequisites:
 - node
 - tsc (`npm -g install typescript` as root)
 - tsd (`npm -g install tsd` as root)
