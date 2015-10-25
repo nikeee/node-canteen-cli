@@ -1,0 +1,42 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "cheerio/cheerio.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "node/node.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "bunyan/bunyan.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "restify/restify.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "request/request.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "moment/moment.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "form-data/form-data.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "yargs/yargs.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "request-promise/request-promise.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    },
+    "bluebird/bluebird.d.ts": {
+      "commit": "68548c2daab053869f323d475419c693478bbb73"
+    }
+  }
+}

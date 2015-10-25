@@ -1,0 +1,28 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "mensa cli",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "test": "tsc",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cheerio": "~0.19.0",
+    "moment": "^2.8.3",
+    "request-promise": "^1.0.1",
+    "yargs": "^3.27.0",
+    "bluebird": "^2.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikeee/node-canteen-static.git"
+  },
+  "author": "Niklas Mollenhauer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikeee/node-canteen-static/issues"
+  },
+  "homepage": "https://github.com/nikeee/node-canteen-static#readme"
+}
