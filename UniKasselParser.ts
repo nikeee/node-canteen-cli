@@ -142,7 +142,7 @@ export default class UniKasselParser implements IMenuParser
 		return {
 			student: parseFloat(tsplit[0]),
 			employee: parseFloat(tsplit[1]),
-			foreign: parseFloat(tsplit[2])
+			visitor: parseFloat(tsplit[2])
 		}
 	}
 

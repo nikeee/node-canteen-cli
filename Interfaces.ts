@@ -49,7 +49,7 @@ interface IPriceItem
 {
 	student: number;
 	employee: number;
-	foreign: number;
+	visitor: number;
 }
 
 interface ICanteenMenu
