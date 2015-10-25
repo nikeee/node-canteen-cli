@@ -43,7 +43,7 @@ export default class Menu
 				}
 			},
 			url: "http://www.studentenwerk-kassel.de/195.html",
-			parser: new LegacyUniKasselParser(),
+			parser: new UniKasselParser(),
 			mealCount: 2 /* actually there are more, but they don't get used */
 		},
 		plett: {
@@ -67,7 +67,7 @@ export default class Menu
 				}
 			},
 			url: "http://www.studentenwerk-kassel.de/415.html",
-			parser: new LegacyUniKasselParser(),
+			parser: new UniKasselParser(),
 			mealCount: 4
 		}
 	};
