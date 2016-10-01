@@ -177,7 +177,7 @@ export default class UniKasselParser implements IMenuParser
 			.replace(/\(/gim, ",")
 			.replace(/\)/gim, ",")
 			.replace(/,{2,}/gim, ",");
-		return s.split(",").concat();
+		return s.split(",").filter(attr => attr && attr.trim() !== "").concat();
 	}
 
 	private parseValidityInterval(intervalStr: string): IMenuValidity
