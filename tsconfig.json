@@ -1,10 +1,19 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"sourceMap": true,
-		"removeComments": true
+		"declaration": true,
+		"target": "es2015",
+		"sourceMap": false,
+		"outDir": "build",
+		"newLine": "LF",
+		"removeComments": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"strictNullChecks": true,
+		"alwaysStrict": true
 	},
-	"files": [
-		"app.ts"
+	"exclude": [
+		"node_modules/typescript"
 	]
 }

@@ -1,8 +1,5 @@
-///<reference path="typings/tsd.d.ts"/>
-///<reference path="./Interfaces.ts"/>
-
 import * as fs from "fs";
-import * as request from "request-promise";
+import * as request from "request";
 import UniKasselParser from "./UniKasselParser";
 import LegacyUniKasselParser from "./LegacyUniKasselParser";
 
@@ -86,17 +83,19 @@ export default class Menu
 
 		if(!fs.existsSync(canteenData.url))
 		{
-			return request({
-				url: canteenData.url,
-				method: "GET",
-				transform: body => Menu.handleBody(canteenData, body)
+			return new Promise((resolve, reject) => {
+				request(canteenData.url, (error: any, response: any, body: string) => {
+					if (error) return reject(error);
+					const m = Menu.handleBody(canteenData, body);
+					return resolve(m);
+				});
 			});
 		}
-		let d = Promise.defer();
-		fs.readFile(canteenData.url, (err, body) => {
-			if(err)
-				return d.reject(err);
-			return d.resolve(Menu.handleBody(canteenData, body.toString()));
+		return new Promise((resolve, reject) => {
+			fs.readFile(canteenData.url, (err, body) => {
+				if (err) return reject(err);
+				return resolve(Menu.handleBody(canteenData, body.toString()));
+			});
 		});
 	}
 

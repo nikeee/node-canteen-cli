@@ -1,6 +1,3 @@
-///<reference path="typings/tsd.d.ts"/>
-///<reference path="./Interfaces.ts"/>
-
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 import Parsers from "./ParseUtilities";
@@ -9,14 +6,14 @@ export default class LegacyUniKasselParser implements IMenuParser
 {
 	public parse(canteen: ICanteenItem, response: string): IParseResult
 	{
-		var $ = cheerio.load(response);
-		var $tbody = $("body#essen table tbody");
+		let $ = cheerio.load(response);
+		let $tbody = $("body#essen table tbody");
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		var intervalStr = $("tr[valign=bottom] td strong", $tbody).text();
-		var validity = this.parseValidityInterval(intervalStr);
+		let intervalStr = $("tr[valign=bottom] td strong", $tbody).text();
+		let validity = this.parseValidityInterval(intervalStr);
 
-		var meals = this.parseMeals($, $tbody, canteen);
+		let meals = this.parseMeals($, $tbody, canteen);
 
 		return {
 			success: true,
@@ -34,45 +31,45 @@ export default class LegacyUniKasselParser implements IMenuParser
 
 	private parseMeals($: CheerioStatic, $tbody: Cheerio, canteen: ICanteenItem): IMeals
 	{
-		var numMeals = canteen.mealCount || 1;
+		let numMeals = canteen.mealCount || 1;
 
-		var offset = 4;
+		let offset = 4;
 
-		var meals: IMeals = {};
+		let meals: IMeals = {};
 
-		for(var row = 0; row < numMeals; ++row)
+		for(let row = 0; row < numMeals; ++row)
 		{
-			var trChildId = offset + row * 2;
-			var $currentRow = $("tr:nth-child(" + trChildId + ")", $tbody);
-			var $rowBeneath = $("tr:nth-child(" + (trChildId + 1) + ")", $tbody);
+			let trChildId = offset + row * 2;
+			let $currentRow = $("tr:nth-child(" + trChildId + ")", $tbody);
+			let $rowBeneath = $("tr:nth-child(" + (trChildId + 1) + ")", $tbody);
 
 			// "Essen 1", "Essen 2", "Essen 3 oder 4", "Angebot des Tages"
-			var genericMealName = $("td.gelb strong.big2", $currentRow).text();
+			let genericMealName = $("td.gelb strong.big2", $currentRow).text();
 
 			// "Essen X" for Monday, Tuesday, Wednesday etc.
-			var mealIdDuringDays: { [dayOfWeek: number]: IMealItem } = {};
+			let mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
 
-			var $tds = $("td", $currentRow);
-			var $tdsBeneath = $("td", $rowBeneath);
+			let $tds = $("td", $currentRow);
+			let $tdsBeneath = $("td", $rowBeneath);
 
-			for(var dayOfWeek = 1; dayOfWeek <= 5; ++dayOfWeek)
+			for(let dayOfWeek = 1; dayOfWeek <= 5; ++dayOfWeek)
 			{
-				var tdChildId = dayOfWeek + 1;
-				var $td = $("td:nth-child(" + tdChildId + ")", $currentRow);
-				var $tdBeneath = $("td:nth-child(" + tdChildId + ")", $rowBeneath);
+				let tdChildId = dayOfWeek + 1;
+				let $td = $("td:nth-child(" + tdChildId + ")", $currentRow);
+				let $tdBeneath = $("td:nth-child(" + tdChildId + ")", $rowBeneath);
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce (1,3,9a,30,35) (V)
-				var currentMealName = $td.text();
+				let currentMealName = $td.text();
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
-				var realMealName = LegacyUniKasselParser.sanitizeMealName(currentMealName);
+				let realMealName = LegacyUniKasselParser.sanitizeMealName(currentMealName);
 
 				// [1, 3, 9a, 30, 35, V]
-				var attr = LegacyUniKasselParser.getMealAttributes(currentMealName);
+				let attr = LegacyUniKasselParser.getMealAttributes(currentMealName);
 
-				var price = LegacyUniKasselParser.parseMealPrice($tdBeneath.text());
+				let price = LegacyUniKasselParser.parseMealPrice($tdBeneath.text());
 
-				if(!realMealName && !price)
+				if(!realMealName || !price)
 				{
 					mealIdDuringDays[dayOfWeek] = null;
 				}
@@ -91,7 +88,7 @@ export default class LegacyUniKasselParser implements IMenuParser
 		return meals;
 	}
 
-	private static parseMealPrice(text: string): IPriceItem
+	private static parseMealPrice(text: string): IPriceItem | null
 	{
 		if(!text || !text.trim())
 			return null;
@@ -101,7 +98,7 @@ export default class LegacyUniKasselParser implements IMenuParser
 					.replace(/\s/gim, "")
 					.replace(/\(.*?\)/gim, "");
 
-		var tsplit = text.split("/");
+		let tsplit = text.split("/");
 		if(tsplit.length != 3)
 		{
 			console.debug("Whoopsie. Invalid price?");
@@ -132,11 +129,11 @@ export default class LegacyUniKasselParser implements IMenuParser
 		if(!name)
 			return [];
 		name = name.replace(/\s/gim, "");
-		var m;
-		var s = "";
+		let m;
+		let s = "";
 		while((m = LegacyUniKasselParser._mealAttrRe.exec(name)) !== null)
 		{
-			if(!!m || m.length > 0)
+			if(!!m && m.length > 0)
 				s += m[1] + ",";
 		}
 		s = s.substring(0, s.length - 1);
@@ -151,7 +148,7 @@ export default class LegacyUniKasselParser implements IMenuParser
 	{
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		var intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
+		let intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
 
 		// If parsing the date values failed, just use the current week as interval
 		if(!intervalReExec || intervalReExec.length != 3)
@@ -163,13 +160,13 @@ export default class LegacyUniKasselParser implements IMenuParser
 		}
 
 		//08.09. -> 08.09.2014
-		var fromSplit = intervalReExec[1].split(".");
-		var untilSplit = intervalReExec[2].split(".");
+		let fromSplit = intervalReExec[1].split(".");
+		let untilSplit = intervalReExec[2].split(".");
 		untilSplit[2] = untilSplit[2] || (new Date()).getFullYear().toString();
 		fromSplit[2] = fromSplit[2] || untilSplit[2];
 
-		var fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
-		var untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
+		let fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
+		let untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
 
 		return {
 			from : fromDate,

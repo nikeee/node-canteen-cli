@@ -1,5 +1,3 @@
-/// <reference path="typings/tsd.d.ts" />
-
 // TODO: Documentation/JSDoc
 
 interface PullArgs
@@ -34,7 +32,7 @@ interface ICanteenInfo
 
 interface IMeals
 {
-	[genericName: string]: { [dayOfWeek: number]: IMealItem };
+	[genericName: string]: { [dayOfWeek: number]: IMealItem | null };
 }
 
 interface IMealItem
@@ -42,7 +40,7 @@ interface IMealItem
 	name: string;
 	attributes: string[]
 	price: IPriceItem;
-	vitalInfo: IMensaVitalItem;
+	vitalInfo: IMensaVitalItem | null;
 }
 
 interface IPriceItem

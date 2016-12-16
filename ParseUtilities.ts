@@ -1,4 +1,3 @@
-
 export default class Parsers
 {
 	public static fixDateOffset(d: Date): Date

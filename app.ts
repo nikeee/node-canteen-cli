@@ -1,32 +1,30 @@
-///<reference path="typings/tsd.d.ts"/>
-///<reference path="./Interfaces.ts"/>
-
 import * as yargs from "yargs";
 import Menu from "./Menu";
-import * as Promise from "bluebird";
 
 const commands = ["pull", "list"];
 const [pullCommand, listCommand] = commands;
 
 let args = yargs
-.command(pullCommand, "Pull current menu of a canteen and put result to stdout.", args => {
-	let argv = <PullArgs>args
-		.string("canteen").alias("c", "canteen").require("canteen", "The canteen to fetch")
-		.argv;
-	requestMenu(argv.canteen)
-	.then(printMenu)
-	.catch(errorAndExit)
-	.done();
+	.command(pullCommand, "Pull current menu of a canteen and put result to stdout.", {
+		canteen: {
+			type: "string",
+			alias: "c",
+			require: "The canteen to fetch"
+		}
+	}, async (args: {canteen: string}) => {
+		try {
+			const res = await requestMenu(args.canteen)
+			printMenu(res);
+		}
+		catch (ex)
+		{
+			errorAndExit(ex);
+		}
 })
-.command(listCommand, "List available canteens", args => list())
+	.command(listCommand, "List available canteens", {}, (_: any) => list())
+.help()
 .argv;
 
-let usedCommand = args._[0].toLowerCase();
-if(commands.indexOf(usedCommand) < 0)
-{
-	yargs.showHelp();
-	process.exit(1);
-}
 
 function errorAndExit(err: Error): void
 {

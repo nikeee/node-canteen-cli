@@ -1,6 +1,3 @@
-///<reference path="typings/tsd.d.ts"/>
-///<reference path="./Interfaces.ts"/>
-
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 import Parsers from "./ParseUtilities";
@@ -53,7 +50,7 @@ export default class UniKasselParser implements IMenuParser
 			let genericMealName = $("td.menu_head", $currentRow).text();
 
 			// "Essen X" for Monday, Tuesday, Wednesday etc.
-			let mealIdDuringDays: { [dayOfWeek: number]: IMealItem } = {};
+			let mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
 
 			let $tds = $("td", $currentRow);
 			let $tdsBeneath = $("td", $rowBeneath);
@@ -81,7 +78,7 @@ export default class UniKasselParser implements IMenuParser
 				let isVital = $td.hasClass("mensavital");
 				let vitalInfo = isVital ? UniKasselParser.parseMensaVital(zsnamen) : null;
 
-				if(!realMealName && !price)
+				if(!realMealName || !price)
 				{
 					mealIdDuringDays[dayOfWeek] = null;
 				}
@@ -121,7 +118,7 @@ export default class UniKasselParser implements IMenuParser
 		};
 	}
 
-	private static parseMealPrice(text: string): IPriceItem
+	private static parseMealPrice(text: string): IPriceItem | null
 	{
 		if(!text || !text.trim())
 			return null;
@@ -169,7 +166,7 @@ export default class UniKasselParser implements IMenuParser
 		let s = "";
 		while((m = UniKasselParser._mealAttrRe.exec(name)) !== null)
 		{
-			if(!!m || m.length > 0)
+			if(!!m && m.length > 0)
 				s += m[1] + ",";
 		}
 		s = s.substring(0, s.length - 1).toUpperCase();
