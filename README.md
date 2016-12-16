@@ -25,5 +25,5 @@ Output will be stdout.
 
 To pull all available canteens into separate files:
 ```bash
-node dist/app.js list | parallel "node app.js pull -c {} > {}.json"
+node build/app.js list | parallel "node build/app.js pull -c {} > {}.json"
 ```
