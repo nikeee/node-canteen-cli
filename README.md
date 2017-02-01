@@ -16,11 +16,11 @@ tsc
 ### Usage
 ```bash
 node build/app.js list # to list evailable canteens
-node build/app.js pull -c <name> # to pull data as JSON of a specific canteen
+node build/app.js pull <name> # to pull data as JSON of a specific canteen
 ```
 Output will be stdout.
 
 To pull all available canteens into separate files:
 ```bash
-node build/app.js list | parallel "node build/app.js pull -c {} > {}.json"
+node build/app.js list | parallel "node build/app.js pull {} > {}.json"
 ```

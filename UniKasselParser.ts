@@ -6,14 +6,14 @@ export default class UniKasselParser implements IMenuParser
 {
 	public parse(canteen: ICanteenItem, response: string): IParseResult
 	{
-		let $ = cheerio.load(response);
-		let $tbody = $("div.mainmensa table");
+		const $ = cheerio.load(response);
+		const $tbody = $("div.mainmensa table");
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		let intervalStr = $("tr.thead h4", $tbody).text();
-		let validity = this.parseValidityInterval(intervalStr);
+		const intervalStr = $("tr.thead h4", $tbody).text();
+		const validity = this.parseValidityInterval(intervalStr);
 
-		let meals = this.parseMeals($, $tbody, canteen);
+		const meals = this.parseMeals($, $tbody, canteen);
 
 		return {
 			success: true,
@@ -31,52 +31,52 @@ export default class UniKasselParser implements IMenuParser
 
 	private parseMeals($: CheerioStatic, $tbody: Cheerio, canteen: ICanteenItem): IMeals
 	{
-		let numMeals = canteen.mealCount || 1;
+		const numMeals = canteen.mealCount || 1;
 
 		const offset = 4;
 
-		let meals: IMeals = {};
+		const meals: IMeals = {};
 
-		let $prices = $("tr.price_row", $tbody);
-		let $items = $("tr.items_row", $tbody);
+		const $prices = $("tr.price_row", $tbody);
+		const $items = $("tr.items_row", $tbody);
 
 		for(let row = 0; row < numMeals; ++row)
 		{
-			let trChildId = offset + row * 2;
-			let $currentRow = $items[row];
-			let $rowBeneath = $prices[row];
+			const trChildId = offset + row * 2;
+			const $currentRow = $items[row];
+			const $rowBeneath = $prices[row];
 
 			// "Essen 1", "Essen 2", "Essen 3 oder 4", "Angebot des Tages"
-			let genericMealName = $("td.menu_head", $currentRow).text();
+			const genericMealName = $("td.menu_head", $currentRow).text();
 
 			// "Essen X" for Monday, Tuesday, Wednesday etc.
-			let mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
+			const mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
 
-			let $tds = $("td", $currentRow);
-			let $tdsBeneath = $("td", $rowBeneath);
+			const $tds = $("td", $currentRow);
+			const $tdsBeneath = $("td", $rowBeneath);
 
 			for(let dayOfWeek = 1; dayOfWeek <= 5; ++dayOfWeek)
 			{
-				let tdChildId = dayOfWeek + 1;
+				const tdChildId = dayOfWeek + 1;
 				// TODO: Better indexing
-				let $td = $("td.menu_content:nth-child(" + tdChildId + ")", $currentRow);
-				let $tdBeneath = $("td.menu_content:nth-child(" + tdChildId + ")", $rowBeneath);
+				const $td = $("td.menu_content:nth-child(" + tdChildId + ")", $currentRow);
+				const $tdBeneath = $("td.menu_content:nth-child(" + tdChildId + ")", $rowBeneath);
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
-				let currentMealName = $td.text();
+				const currentMealName = $td.text();
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
-				let realMealName = UniKasselParser.sanitizeMealName(currentMealName);
+				const realMealName = UniKasselParser.sanitizeMealName(currentMealName);
 
 				// (1, 3, 9a) (V), Kcal:718, E:28.0 g, K:98.0 g, Fe:22.0 g
-				let zsnamen = $(".zsnamen", $td).text()
+				const zsnamen = $(".zsnamen", $td).text()
 				// [1, 3, 9a, 30, 35, V]
-				let attr = UniKasselParser.getMealAttributes(zsnamen);
+				const attr = UniKasselParser.getMealAttributes(zsnamen);
 
-				let price = UniKasselParser.parseMealPrice($tdBeneath.text());
+				const price = UniKasselParser.parseMealPrice($tdBeneath.text());
 
-				let isVital = $td.hasClass("mensavital");
-				let vitalInfo = isVital ? UniKasselParser.parseMensaVital(zsnamen) : null;
+				const isVital = $td.hasClass("mensavital");
+				const vitalInfo = isVital ? UniKasselParser.parseMensaVital(zsnamen) : null;
 
 				if(!realMealName || !price)
 				{
@@ -100,15 +100,15 @@ export default class UniKasselParser implements IMenuParser
 	private static parseMensaVital(zsnamen: string): IMensaVitalItem
 	{
 		//Kcal:718, E:28.0 g, K:98.0 g, Fe:22.0 g
-		let calories = /Kcal:\s*([-+]?[0-9]*\.?[0-9]+)/im;
-		let protein = /E:\s*([-+]?[0-9]*\.?[0-9]+)/im;
-		let carbohydrate = /K:\s*([-+]?[0-9]*\.?[0-9]+)/im;
-		let fat = /Fe:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		const calories = /Kcal:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		const protein = /E:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		const carbohydrate = /K:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		const fat = /Fe:\s*([-+]?[0-9]*\.?[0-9]+)/im;
 
-		let fatr = fat.exec(zsnamen);
-		let carbohydrater = carbohydrate.exec(zsnamen);
-		let proteinr = protein.exec(zsnamen);
-		let caloriesr = calories.exec(zsnamen);
+		const fatr = fat.exec(zsnamen);
+		const carbohydrater = carbohydrate.exec(zsnamen);
+		const proteinr = protein.exec(zsnamen);
+		const caloriesr = calories.exec(zsnamen);
 
 		return {
 			fat: fatr != null ? parseFloat(fatr[1]) : 0.0,
@@ -128,7 +128,7 @@ export default class UniKasselParser implements IMenuParser
 					.replace(/\s/gim, "")
 					.replace(/\(.*?\)/gim, "");
 
-		let tsplit = text.split("/");
+		const tsplit = text.split("/");
 		if(tsplit.length != 3)
 		{
 			console.error("Whoopsie. Invalid price?");
@@ -156,7 +156,7 @@ export default class UniKasselParser implements IMenuParser
 		return name.trim();
 	}
 
-	private static _mealAttrRe = /\((.*?)\)/gim;
+	private static readonly _mealAttrRe = /\((.*?)\)/gim;
 	private static getMealAttributes(name: string): string[]
 	{
 		if(!name)
@@ -181,7 +181,7 @@ export default class UniKasselParser implements IMenuParser
 	{
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		let intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
+		const intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
 
 		// If parsing the date values failed, just use the current week as interval
 		if(!intervalReExec || intervalReExec.length != 3)
@@ -193,13 +193,13 @@ export default class UniKasselParser implements IMenuParser
 		}
 
 		//08.09. -> 08.09.2014
-		let fromSplit = intervalReExec[1].split(".");
-		let untilSplit = intervalReExec[2].split(".");
+		const fromSplit = intervalReExec[1].split(".");
+		const untilSplit = intervalReExec[2].split(".");
 		untilSplit[2] = untilSplit[2] || (new Date()).getFullYear().toString();
 		fromSplit[2] = fromSplit[2] || untilSplit[2];
 
-		let fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
-		let untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
+		const fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
+		const untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
 
 		return {
 			from : fromDate,

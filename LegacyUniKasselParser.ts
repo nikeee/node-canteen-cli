@@ -6,14 +6,14 @@ export default class LegacyUniKasselParser implements IMenuParser
 {
 	public parse(canteen: ICanteenItem, response: string): IParseResult
 	{
-		let $ = cheerio.load(response);
-		let $tbody = $("body#essen table tbody");
+		const $ = cheerio.load(response);
+		const $tbody = $("body#essen table tbody");
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		let intervalStr = $("tr[valign=bottom] td strong", $tbody).text();
-		let validity = this.parseValidityInterval(intervalStr);
+		const intervalStr = $("tr[valign=bottom] td strong", $tbody).text();
+		const validity = this.parseValidityInterval(intervalStr);
 
-		let meals = this.parseMeals($, $tbody, canteen);
+		const meals = this.parseMeals($, $tbody, canteen);
 
 		return {
 			success: true,
@@ -31,43 +31,43 @@ export default class LegacyUniKasselParser implements IMenuParser
 
 	private parseMeals($: CheerioStatic, $tbody: Cheerio, canteen: ICanteenItem): IMeals
 	{
-		let numMeals = canteen.mealCount || 1;
+		const numMeals = canteen.mealCount || 1;
 
-		let offset = 4;
+		const offset = 4;
 
-		let meals: IMeals = {};
+		const meals: IMeals = {};
 
 		for(let row = 0; row < numMeals; ++row)
 		{
-			let trChildId = offset + row * 2;
-			let $currentRow = $("tr:nth-child(" + trChildId + ")", $tbody);
-			let $rowBeneath = $("tr:nth-child(" + (trChildId + 1) + ")", $tbody);
+			const trChildId = offset + row * 2;
+			const $currentRow = $("tr:nth-child(" + trChildId + ")", $tbody);
+			const $rowBeneath = $("tr:nth-child(" + (trChildId + 1) + ")", $tbody);
 
 			// "Essen 1", "Essen 2", "Essen 3 oder 4", "Angebot des Tages"
-			let genericMealName = $("td.gelb strong.big2", $currentRow).text();
+			const genericMealName = $("td.gelb strong.big2", $currentRow).text();
 
 			// "Essen X" for Monday, Tuesday, Wednesday etc.
-			let mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
+			const mealIdDuringDays: { [dayOfWeek: number]: IMealItem | null } = {};
 
-			let $tds = $("td", $currentRow);
-			let $tdsBeneath = $("td", $rowBeneath);
+			const $tds = $("td", $currentRow);
+			const $tdsBeneath = $("td", $rowBeneath);
 
 			for(let dayOfWeek = 1; dayOfWeek <= 5; ++dayOfWeek)
 			{
-				let tdChildId = dayOfWeek + 1;
-				let $td = $("td:nth-child(" + tdChildId + ")", $currentRow);
-				let $tdBeneath = $("td:nth-child(" + tdChildId + ")", $rowBeneath);
+				const tdChildId = dayOfWeek + 1;
+				const $td = $("td:nth-child(" + tdChildId + ")", $currentRow);
+				const $tdBeneath = $("td:nth-child(" + tdChildId + ")", $rowBeneath);
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce (1,3,9a,30,35) (V)
-				let currentMealName = $td.text();
+				const currentMealName = $td.text();
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
-				let realMealName = LegacyUniKasselParser.sanitizeMealName(currentMealName);
+				const realMealName = LegacyUniKasselParser.sanitizeMealName(currentMealName);
 
 				// [1, 3, 9a, 30, 35, V]
-				let attr = LegacyUniKasselParser.getMealAttributes(currentMealName);
+				const attr = LegacyUniKasselParser.getMealAttributes(currentMealName);
 
-				let price = LegacyUniKasselParser.parseMealPrice($tdBeneath.text());
+				const price = LegacyUniKasselParser.parseMealPrice($tdBeneath.text());
 
 				if(!realMealName || !price)
 				{
@@ -98,12 +98,8 @@ export default class LegacyUniKasselParser implements IMenuParser
 					.replace(/\s/gim, "")
 					.replace(/\(.*?\)/gim, "");
 
-		let tsplit = text.split("/");
-		if(tsplit.length != 3)
-		{
-			console.debug("Whoopsie. Invalid price?");
-			return null;
-		}
+		const tsplit = text.split("/");
+		console.assert(tsplit.length === 3, "Whoopsie. Invalid price?")
 
 		return {
 			student: parseFloat(tsplit[0]),
@@ -148,7 +144,7 @@ export default class LegacyUniKasselParser implements IMenuParser
 	{
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		let intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
+		const intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
 
 		// If parsing the date values failed, just use the current week as interval
 		if(!intervalReExec || intervalReExec.length != 3)
@@ -160,13 +156,13 @@ export default class LegacyUniKasselParser implements IMenuParser
 		}
 
 		//08.09. -> 08.09.2014
-		let fromSplit = intervalReExec[1].split(".");
-		let untilSplit = intervalReExec[2].split(".");
+		const fromSplit = intervalReExec[1].split(".");
+		const untilSplit = intervalReExec[2].split(".");
 		untilSplit[2] = untilSplit[2] || (new Date()).getFullYear().toString();
 		fromSplit[2] = fromSplit[2] || untilSplit[2];
 
-		let fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
-		let untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
+		const fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
+		const untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
 
 		return {
 			from : fromDate,

@@ -91,7 +91,7 @@ export default class Menu
 		if(!canteen || typeof Menu.availableCanteens[canteen.toLowerCase()] === "undefined")
 			return Promise.reject(new Error("Canteen not available"))
 
-		let canteenData = Menu.availableCanteens[canteen];
+		const canteenData = Menu.availableCanteens[canteen];
 
 		if(!fs.existsSync(canteenData.url))
 		{
