@@ -66,6 +66,18 @@ export default class Menu
 			url: "http://www.studentenwerk-kassel.de/415.html",
 			parser: new UniKasselParser(),
 			mealCount: 4
+		},
+		k10: {
+			info: {
+				name: "Bistro K10",
+				location: {
+					lat: 51.321952,
+					long: 9.503411
+				}
+			},
+			url: "https://www.studentenwerk-kassel.de/de/meta/speiseplan/bistrok10/",
+			parser: new UniKasselParser(),
+			mealCount: 3
 		}
 	};
 
