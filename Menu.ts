@@ -86,7 +86,7 @@ export default class Menu
 		return typeof Menu.availableCanteens[canteen.toLowerCase()] !== "undefined";
 	}
 
-	public static pull(canteen: string): Promise<IParseResult>
+	public static pull(canteen: string): Promise<IParseResult<ICanteenMenu>>
 	{
 		if(!canteen || typeof Menu.availableCanteens[canteen.toLowerCase()] === "undefined")
 			return Promise.reject(new Error("Canteen not available"))
@@ -111,7 +111,7 @@ export default class Menu
 		});
 	}
 
-	private static handleBody(canteenData: ICanteenItem, body: string): IParseResult
+	private static handleBody(canteenData: ICanteenItem, body: string): IParseResult<ICanteenMenu>
 	{
 		return canteenData.parser.parse(canteenData, body);
 	}

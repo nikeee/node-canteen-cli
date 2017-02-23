@@ -1,65 +1,65 @@
 // TODO: Documentation/JSDoc
 
-interface PullArgs
-{
+interface PullArgs {
 	canteen: string;
 }
 
-interface IMenuParser
-{
-	parse(canteen: ICanteenItem, response: string): IParseResult;
+interface IMenuParser<T> {
+	parse(canteen: ICanteenItem, response: string): IParseResult<T>;
 }
 
-interface ICanteenList
-{
+interface ICanteenList {
 	[key: string]: ICanteenItem;
 }
 
-interface ICanteenItem
-{
+interface ICanteenItem {
 	info: ICanteenInfo;
 	url: string;
-	parser: IMenuParser;
+	parser: IMenuParser<ICanteenMenu>;
 	mealCount: number;
 }
 
-interface ICanteenInfo
-{
+interface ICanteenInfo {
 	name: string;
 	locationDescription?: string;
 	location?: { lat: number; long: number };
 }
 
-interface IMeals
-{
-	[genericName: string]: { [dayOfWeek: number]: IMealItem | null };
+interface IMeals {
+	[genericName: string]: { [dayOfWeek: number]: IMealItem | null; };
 }
 
-interface IMealItem
-{
+interface IMealItem {
 	name: string;
 	attributes: string[]
 	price: IPriceItem;
 	vitalInfo: IMensaVitalItem | null;
 }
+interface ITransposedMealItem extends IMealItem {
+	categoryName: string;
+}
 
-interface IPriceItem
-{
+interface IPriceItem {
 	student: number;
 	employee: number;
 	visitor: number;
 }
 
-interface ICanteenMenu
-{
+interface ICanteenMenu {
 	info: ICanteenInfo;
 	validity: IMenuValidity;
 	currency: string;
 	meals: IMeals;
 }
 
-interface IMensaVitalItem
-{
+interface ITransposedCanteenMenu {
+	info: ICanteenInfo;
+	validity: IMenuValidity;
+	currency: string;
+	days: ITransposedMealItem[][];
+}
+
+interface IMensaVitalItem {
 	// Maybe add a units later
 	protein: number;
 	fat: number;
@@ -67,15 +67,13 @@ interface IMensaVitalItem
 	carbohydrate: number;
 }
 
-interface IMenuValidity
-{
+interface IMenuValidity {
 	from: Date;
 	until: Date;
 }
 
-interface IParseResult
-{
+interface IParseResult<T> {
 	success: boolean;
 	message?: string;
-	menu: ICanteenMenu;
+	menu: T;
 }

@@ -2,9 +2,9 @@ import * as cheerio from "cheerio";
 import * as moment from "moment";
 import Parsers from "./ParseUtilities";
 
-export default class LegacyUniKasselParser implements IMenuParser
+export default class LegacyUniKasselParser implements IMenuParser<ICanteenMenu>
 {
-	public parse(canteen: ICanteenItem, response: string): IParseResult
+	public parse(canteen: ICanteenItem, response: string): IParseResult<ICanteenMenu>
 	{
 		const $ = cheerio.load(response);
 		const $tbody = $("body#essen table tbody");
