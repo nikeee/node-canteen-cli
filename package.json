@@ -9,7 +9,7 @@
     "start": "node build/app.js"
   },
   "bin": {
-    "canteen-cli": "./build/app.js"
+    "canteen-cli": "build/app.js"
   },
   "dependencies": {
     "@types/cheerio": "^0.17.31",
