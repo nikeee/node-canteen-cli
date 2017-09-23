@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "canteen-cli",
   "version": "1.0.0",
   "description": "mensa cli",
   "main": "build/app.js",
