@@ -10,11 +10,8 @@
 		"sourceMap": false,
 		"outDir": "build",
 		"newLine": "LF",
+		"strict": true,
 		"removeComments": true,
-		"noImplicitAny": true,
-		"noImplicitThis": true,
-		"noImplicitReturns": true,
-		"strictNullChecks": true,
 		"alwaysStrict": true
 	},
 	"exclude": [
