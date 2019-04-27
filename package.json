@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@types/cheerio": "^0.22.11",
-    "@types/node": "^11.13.0",
+    "@types/node": "^11.13.8",
     "@types/request": "2.48.1",
-    "@types/yargs": "^12.0.11",
+    "@types/yargs": "^13.0.0",
     "cheerio": "^0.22.0",
     "moment": "^2.24.0",
     "request": "^2.88.0",
