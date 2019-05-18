@@ -3,14 +3,19 @@
 import * as yargs from "yargs";
 import Menu from "./Menu";
 
+interface PullArgs {
+	canteen: string;
+	transposed: boolean;
+};
+
 const args = yargs
-	.command("pull <canteen>", "Pull current menu of a canteen and put result to stdout.", {}, async (args: { canteen: string; transposed: boolean; }) => {
+	.command("pull <canteen>", "Pull current menu of a canteen and put result to stdout.", undefined, async (args: PullArgs) => {
 		try {
 			const res = await requestMenu(args.canteen)
 			printMenu(res, args.transposed);
 		} catch (ex) { errorAndExit(ex); }
 	})
-	.command("list", "List available canteens", {}, _ => list())
+	.command("list", "List available canteens", {}, () => list())
 	.option("transposed", {
 		alias: "t",
 		default: false,
