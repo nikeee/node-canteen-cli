@@ -14,7 +14,7 @@ export default class Menu
 					long: 9.47467
 				}
 			},
-			url: "http://www.studentenwerk-kassel.de/189.html",
+			url: "http://www.studierendenwerk-kassel.de/189.html",
 			parser: new UniKasselParser(),
 			mealCount: 5
 		},
@@ -27,7 +27,7 @@ export default class Menu
 					long: 9.50626
 				}
 			},
-			url: "http://www.studentenwerk-kassel.de/188.html",
+			url: "http://www.studierendenwerk-kassel.de/188.html",
 			parser: new UniKasselParser(),
 			mealCount: 6
 		},
@@ -39,7 +39,7 @@ export default class Menu
 					long: 9.489587
 				}
 			},
-			url: "http://www.studentenwerk-kassel.de/195.html",
+			url: "http://www.studierendenwerk-kassel.de/195.html",
 			parser: new UniKasselParser(),
 			mealCount: 2 /* actually there are more, but they don't get used */
 		},
@@ -51,7 +51,7 @@ export default class Menu
 					long: 9.447503
 				}
 			},
-			url: "http://www.studentenwerk-kassel.de/187.html",
+			url: "http://www.studierendenwerk-kassel.de/187.html",
 			parser: new UniKasselParser(),
 			mealCount: 4
 		},
@@ -63,7 +63,7 @@ export default class Menu
 					long: 9.859827
 				}
 			},
-			url: "http://www.studentenwerk-kassel.de/415.html",
+			url: "http://www.studierendenwerk-kassel.de/415.html",
 			parser: new UniKasselParser(),
 			mealCount: 4
 		},
@@ -75,7 +75,7 @@ export default class Menu
 					long: 9.503411
 				}
 			},
-			url: "https://www.studentenwerk-kassel.de/de/meta/speiseplan/bistrok10/",
+			url: "https://www.studierendenwerk-kassel.de/de/speiseplan/bistrok10/",
 			parser: new UniKasselParser(),
 			mealCount: 3
 		}
