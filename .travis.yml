@@ -6,8 +6,5 @@ node_js:
 
 cache: npm
 
-install: npm ci
-
-git:
-  depth: 1
-
+script:
+  - npm run compile

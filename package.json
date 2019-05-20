@@ -5,7 +5,8 @@
   "main": "build/app.js",
   "private": true,
   "scripts": {
-    "test": "node_modules/.bin/tsc",
+    "test": "tsc --noEmit",
+    "compile": "tsc",
     "start": "node build/app.js"
   },
   "bin": {
@@ -30,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/nikeee/node-canteen-cli/issues"
   },
-  "homepage": "https://github.com/nikeee/node-canteen-cli#readme"
+  "homepage": "https://github.com/nikeee/node-canteen-cli#readme",
+  "devDependencies": {
+    "typescript": "^3.4.5"
+  }
 }
