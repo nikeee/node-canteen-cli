@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@types/cheerio": "^0.22.13",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.3",
     "@types/request": "2.48.2",
     "@types/yargs": "^13.0.2",
     "cheerio": "^0.22.0",
     "moment": "^2.24.0",
     "request": "^2.88.0",
-    "yargs": "^13.3.0"
+    "yargs": "^14.0.0"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,6 @@
   },
   "homepage": "https://github.com/nikeee/node-canteen-cli#readme",
   "devDependencies": {
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   }
 }
