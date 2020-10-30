@@ -29,7 +29,7 @@ export default class LegacyUniKasselParser implements IMenuParser<ICanteenMenu>
 		};
 	}
 
-	private parseMeals($: CheerioStatic, $tbody: Cheerio, canteen: ICanteenItem): IMeals
+	private parseMeals($: cheerio.Root, $tbody: cheerio.Cheerio, canteen: ICanteenItem): IMeals
 	{
 		const numMeals = canteen.mealCount || 1;
 
