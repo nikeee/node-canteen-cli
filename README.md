@@ -9,8 +9,8 @@ Data scraper for Uni Kassel Mensa.
 ```bash
 git clone https://github.com/nikeee/node-canteen-cli
 cd node-canteen-cli
-npm i
-tsc
+npm ci
+npm run compile
 ```
 
 ### Usage
