@@ -1,0 +1,28 @@
+name: Update Site
+# Updates https://nikeee.github.io/canteen
+
+on:
+  # schedule:
+  #  - cron: "5 5 * * *"
+  push:
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2.1.2
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2.1.2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
