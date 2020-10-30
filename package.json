@@ -27,7 +27,7 @@
     "url": "git+https://github.com/nikeee/node-canteen-cli.git"
   },
   "author": "Niklas Mollenhauer",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/nikeee/node-canteen-cli/issues"
   },
